@@ -25,3 +25,10 @@ export const salesData = [
   { name: "May", sales: 600 },
   { name: "Jun", sales: 700 },
 ];
+
+export const users = Array.from({ length: 42 }, (_, i) => ({
+  id: i + 1,
+  name: `User ${i + 1}`,
+  email: `user${i + 1}@example.com`,
+  role: i % 3 === 0 ? "Admin" : "User",
+}));

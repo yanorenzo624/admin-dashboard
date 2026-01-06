@@ -113,6 +113,16 @@ const Settings = () => {
 				</div>
 			</div>
 
+			<button
+				onClick={() => {
+					localStorage.clear();
+					window.location.reload();
+				}}
+				className="text-sm text-red-500 hover:underline"
+			>
+				Reset all settings
+			</button>
+
 		</div>
 	);
 };

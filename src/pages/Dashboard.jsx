@@ -28,7 +28,7 @@ const Dashboard = () => {
 			</div>
 
 			{/* Chart */}
-			<div className="bg-white p-6 rounded-xl shadow-sm">
+			<div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
 				<h3 className="font-semibold mb-4">
 					Sales Overview
 				</h3>

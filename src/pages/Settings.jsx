@@ -1,13 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 const Settings = () => {
-	const { user } = useAuth();	
+	const { user, updateProfile } = useAuth();
 	const { dark, setDark } = useTheme();
-	const [name, setName] = useLocalStorage("name", "John Doe");
-	const [email, setEmail] = useLocalStorage("email", user?.email || "john@example.com");
+	const [name, setName] = useState(user?.name || "");
+	const [email, setEmail] = useState(user?.email || "");
 	const [emailNotifications, setEmailNotifications] =
 		useLocalStorage("emailNotifications", true);
 
@@ -17,6 +17,7 @@ const Settings = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		updateProfile({ name, email });
 		alert("Profile settings saved successfully!");
 	};
 
@@ -63,7 +64,7 @@ const Settings = () => {
 					type="submit"
 					className="bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded"
 				>
-					Save Changes
+					Save profile
 				</button>
 			</form>
 
@@ -117,8 +118,6 @@ const Settings = () => {
 
 			<button
 				onClick={() => {
-					localStorage.removeItem("name");
-					localStorage.removeItem("email");
 					localStorage.removeItem("emailNotifications");
 					localStorage.removeItem("darkMode");
 					window.location.reload();

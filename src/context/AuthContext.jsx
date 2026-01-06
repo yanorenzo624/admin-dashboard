@@ -1,21 +1,42 @@
-import { createContext, useContext } from "react";
-import useLocalStorage from "../hooks/useLocalStorage";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useLocalStorage("user", null);
+  const storedUser = localStorage.getItem("user");
+
+  const [user, setUser] = useState(
+    storedUser ? JSON.parse(storedUser) : null
+  );
 
   const login = (email) => {
-    setUser({ email });
+    const userData = {
+      email,
+      name: "Admin User",
+      role: "admin",
+    };
+
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem("user");
+  };
+
+  const updateProfile = (updates) => {
+    setUser((prev) => {
+      const updatedUser = { ...prev, ...updates };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      return updatedUser;
+    });
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, updateProfile }}
+    >
       {children}
     </AuthContext.Provider>
   );

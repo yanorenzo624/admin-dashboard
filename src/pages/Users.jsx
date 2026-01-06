@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { users as mockUsers } from "../data/mockData";
+import TableSkeleton from "../components/TableSkeleton";
 
 const ITEMS_PER_PAGE = 8;
 
 const Users = () => {
 	const [search, setSearch] = useState("");
 	const [page, setPage] = useState(1);
+	const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // simulate API call
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
 	const filteredUsers = mockUsers.filter((user) =>
 		user.name.toLowerCase().includes(search.toLowerCase())
@@ -33,27 +44,31 @@ const Users = () => {
 				className="p-3 border rounded-lg w-full sm:w-64"
 			/>
 
-			<div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow-sm">
-				<table className="w-full text-left">
-					<thead className="border-b dark:border-gray-700">
-						<tr>
-							<th className="p-4">Name</th>
-							<th className="p-4">Email</th>
-							<th className="p-4">Role</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						{users.map((user) => (
-							<tr key={user.id} className="border-b dark:border-gray-700 last:border-0">
-								<td className="p-4 text-gray-900 dark:text-gray-100">{user.name}</td>
-								<td className="p-4 text-gray-900 dark:text-gray-100">{user.email}</td>
-								<td className="p-4 text-gray-900 dark:text-gray-100">{user.role}</td>
+			{loading ? (
+				<TableSkeleton />
+			) : (
+				<div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow-sm">
+					<table className="w-full text-left">
+						<thead className="border-b dark:border-gray-700">
+							<tr>
+								<th className="p-4">Name</th>
+								<th className="p-4">Email</th>
+								<th className="p-4">Role</th>
 							</tr>
-						))}
-					</tbody>
-				</table>
-			</div>
+						</thead>
+
+						<tbody>
+							{users.map((user) => (
+								<tr key={user.id} className="border-b dark:border-gray-700 last:border-0">
+									<td className="p-4 text-gray-900 dark:text-gray-100">{user.name}</td>
+									<td className="p-4 text-gray-900 dark:text-gray-100">{user.email}</td>
+									<td className="p-4 text-gray-900 dark:text-gray-100">{user.role}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			)}
 
 			{/* Pagination */}
 			<div className="flex gap-2">

@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "../context/ThemeContext";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const Settings = () => {
 	const { dark, setDark } = useTheme();
-	const [name, setName] = useState(() =>
-		localStorage.getItem("name") || "John Doe");
-	const [email, setEmail] = useState(() =>
-		localStorage.getItem("email") || "john@example.com");
-	const [emailNotifications, setEmailNotifications] = useState(() =>
-		localStorage.getItem("emailNotifications") !== "false");
+	const [name, setName] = useLocalStorage("name", "John Doe");
+	const [email, setEmail] = useLocalStorage("email", "john@example.com");
+	const [emailNotifications, setEmailNotifications] =
+		useLocalStorage("emailNotifications", true);
 
 	useEffect(() => {
 		localStorage.setItem("emailNotifications", emailNotifications);
@@ -16,10 +15,6 @@ const Settings = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
-		localStorage.setItem("name", name);
-		localStorage.setItem("email", email);
-
 		alert("Profile settings saved successfully!");
 	};
 

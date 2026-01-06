@@ -1,15 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "../context/ThemeContext";
 
 const Settings = () => {
 	const { dark, setDark } = useTheme();
-	const [name, setName] = useState("John Doe");
-	const [email, setEmail] = useState("john@example.com");
-	const [emailNotifications, setEmailNotifications] = useState(true);
+	const [name, setName] = useState(() =>
+		localStorage.getItem("name") || "John Doe");
+	const [email, setEmail] = useState(() =>
+		localStorage.getItem("email") || "john@example.com");
+	const [emailNotifications, setEmailNotifications] = useState(() =>
+		localStorage.getItem("emailNotifications") !== "false");
+
+	useEffect(() => {
+		localStorage.setItem("emailNotifications", emailNotifications);
+	}, [emailNotifications])
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		alert("Settings saved successfully!");
+
+		localStorage.setItem("name", name);
+		localStorage.setItem("email", email);
+
+		alert("Profile settings saved successfully!");
 	};
 
 	return (

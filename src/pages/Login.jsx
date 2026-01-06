@@ -1,11 +1,16 @@
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
-  const { login } = useAuth();
   const navigate = useNavigate();
+  const { user, login } = useAuth();
+
+	if (user) {
+		return <Navigate to="/" replace />;
+	}
 
   const handleSubmit = (e) => {
     e.preventDefault();

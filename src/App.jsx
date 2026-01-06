@@ -1,29 +1,26 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
-import Sidebar from "./components/Sidebar";
-import Topbar from "./components/Topbar";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
-        <Sidebar />
+    <Routes>
+      {/* Public */}
+      <Route path="/login" element={<Login />} />
 
-        <div className="flex-1 flex flex-col">
-          <Topbar />
-
-          <main className="p-6 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/settings" element={<Settings />} />
-            </Routes>
-          </main>
-        </div>
-      </div>
-    </BrowserRouter>
+      {/* Protected */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/settings" element={<Settings />} />
+        </Route>
+      </Route>
+    </Routes>
   );
 };
 

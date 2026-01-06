@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 const Settings = () => {
+	const { user } = useAuth();	
 	const { dark, setDark } = useTheme();
 	const [name, setName] = useLocalStorage("name", "John Doe");
-	const [email, setEmail] = useLocalStorage("email", "john@example.com");
+	const [email, setEmail] = useLocalStorage("email", user?.email || "john@example.com");
 	const [emailNotifications, setEmailNotifications] =
 		useLocalStorage("emailNotifications", true);
 
@@ -115,7 +117,10 @@ const Settings = () => {
 
 			<button
 				onClick={() => {
-					localStorage.clear();
+					localStorage.removeItem("name");
+					localStorage.removeItem("email");
+					localStorage.removeItem("emailNotifications");
+					localStorage.removeItem("darkMode");
 					window.location.reload();
 				}}
 				className="text-sm text-red-500 hover:underline"

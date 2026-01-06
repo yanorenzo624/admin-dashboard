@@ -5,10 +5,11 @@ const Settings = () => {
 	const { dark, setDark } = useTheme();
 	const [name, setName] = useState("John Doe");
 	const [email, setEmail] = useState("john@example.com");
+	const [emailNotifications, setEmailNotifications] = useState(true);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		alert("Profile settings saved!");
+		alert("Settings saved successfully!");
 	};
 
 	return (
@@ -81,6 +82,31 @@ const Settings = () => {
 					</button>
 				</div>
 			</div>
+
+			{/* Notification Preferences */}
+			<div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm space-y-4">
+				<h3 className="font-semibold text-gray-900 dark:text-white">
+					Notification Preferences
+				</h3>
+
+				<div className="flex items-center justify-between">
+					<span className="text-gray-700 dark:text-gray-300">
+						Email Notifications
+					</span>
+
+					<button
+						onClick={() => setEmailNotifications(!emailNotifications)}
+						className={`w-12 h-6 flex items-center rounded-full p-1 transition
+        ${emailNotifications ? "bg-green-500" : "bg-gray-300"}`}
+					>
+						<span
+							className={`bg-white w-4 h-4 rounded-full transform transition
+          ${emailNotifications ? "translate-x-6" : "translate-x-0"}`}
+						/>
+					</button>
+				</div>
+			</div>
+
 		</div>
 	);
 };

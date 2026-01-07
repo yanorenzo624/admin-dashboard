@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Login from "./pages/Login";
+import Unauthorized from "./pages/Unauthorized";
 
 import { ROLES } from "./constants/roles";
 
@@ -46,6 +47,15 @@ const App = () => {
           }
         />
       </Route>
+
+      <Route
+        path="/unauthorized"
+        element={
+          <ProtectedRoute>
+            <Unauthorized />
+          </ProtectedRoute>
+        }
+      />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

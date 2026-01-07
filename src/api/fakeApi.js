@@ -1,3 +1,5 @@
+import { ROLES } from "../constants/roles";
+
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 export const fetchDashboardStats = async () => {
@@ -39,8 +41,12 @@ export const fetchDashboardSalesData = async () => {
 export const fetchUsers = async () => {
 	await delay(1000);
 
-	return [
-		{ id: 1, name: "John Doe", email: "john@test.com", role: "user" },
-		{ id: 2, name: "Jane Admin", email: "admin@test.com", role: "admin" },
-	];
+	const users = Array.from({ length: 42 }, (_, i) => ({
+		id: i + 1,
+		name: `User ${i + 1}`,
+		email: `user${i + 1}@example.com`,
+		role: i % 3 === 0 ? ROLES.ADMIN : ROLES.USER,
+	}));
+
+	return users;
 };

@@ -12,12 +12,8 @@ import {
 } from "recharts";
 import { fetchDashboardSalesData, fetchDashboardStats } from "../api/fakeApi";
 import { useTheme } from "../context/ThemeContext";
+import { STATUS } from "../constants/status";
 
-const STATUS = {
-	LOADING: "loading",
-	SUCCESS: "success",
-	FAILED: "failed",
-};
 
 const Dashboard = () => {
 	const { theme } = useTheme();

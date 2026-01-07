@@ -1,25 +1,53 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+
 import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
+
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Login from "./pages/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
+
+import { ROLES } from "./constants/roles";
 
 const App = () => {
   return (
     <Routes>
-      {/* Public */}
       <Route path="/login" element={<Login />} />
 
-      {/* Protected */}
-      <Route element={<ProtectedRoute />}>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/settings" element={<Settings />} />
-        </Route>
+      <Route element={<Layout />}>
+        {/* Dashboard - all authenticated users */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Users - ADMIN only */}
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
+              <Users />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Settings - all authenticated users */}
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
       </Route>
+
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };

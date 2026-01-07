@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { ROLES } from "../constants/roles";
 
 const AuthContext = createContext();
 
@@ -13,7 +14,7 @@ export const AuthProvider = ({ children }) => {
     const userData = {
       email,
       name: "Admin User",
-      role: "admin",
+      role: email.includes("admin") ? ROLES.ADMIN : ROLES.USER,
     };
 
     setUser(userData);

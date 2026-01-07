@@ -21,8 +21,8 @@ const Dashboard = () => {
 	const [stats, setStats] = useState(null);
 	const [salesData, setSalesData] = useState(null);
 
-	useEffect(() => {
-		let isMounted = true;
+	const loadStats = (isMounted = true) => {
+		setState((prev) => { return { ...prev, stats: STATUS.LOADING } });
 
 		fetchDashboardStats()
 			.then((data) => {
@@ -36,12 +36,18 @@ const Dashboard = () => {
 					setState((prev) => { return { ...prev, stats: STATUS.FAILED } })
 				}
 			});
+	}
+
+	useEffect(() => {
+		let isMounted = true;
+
+		loadStats(isMounted);
 
 		return () => { isMounted = false; };
 	}, []);
 
-	useEffect(() => {
-		let isMounted = true;
+	const loadSalesData = (isMounted = true) => {
+		setState((prev) => { return { ...prev, salesData: STATUS.LOADING } });
 
 		fetchDashboardSalesData()
 			.then((data) => {
@@ -55,6 +61,12 @@ const Dashboard = () => {
 					setState((prev) => { return { ...prev, salesData: STATUS.FAILED } });
 				}
 			});
+	}
+
+	useEffect(() => {
+		let isMounted = true;
+
+		loadSalesData(isMounted);
 
 		return () => { isMounted = false; };
 	}, []);
@@ -66,7 +78,21 @@ const Dashboard = () => {
 		if (state.stats === STATUS.SUCCESS && stats)
 			return stats.map((stat) => <StatCard key={stat.title} {...stat} />);
 
-		return <p className="text-red-500">Failed to load stats data.</p>;
+		return (
+			<div className="col-span-full text-center space-y-2">
+				<p className="text-red-500">
+					Failed to load stats data.
+				</p>
+				<button
+					onClick={loadStats}
+					className="px-4 py-2 text-sm rounded-lg
+          bg-blue-600 text-white
+          hover:bg-blue-700"
+				>
+					Retry
+				</button>
+			</div>
+		);
 	};
 
 	const renderChart = () => {
@@ -97,7 +123,21 @@ const Dashboard = () => {
 				</div>
 			);
 
-		return <p className="text-red-500">Failed to load sales data.</p>;
+		return (
+			<div className="text-center space-y-2">
+				<p className="text-red-500">
+					Failed to load sales data.
+				</p>
+				<button
+					onClick={loadSalesData}
+					className="px-4 py-2 text-sm rounded-lg
+        bg-blue-600 text-white
+        hover:bg-blue-700"
+				>
+					Retry
+				</button>
+			</div>
+		);
 	}
 
 	return (

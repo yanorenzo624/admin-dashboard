@@ -6,7 +6,7 @@ async data handling, and polished user experience.
 
 ## 🚀 Live Demo
 - 👉 Live: https://admin-dashboard-two-theta-34.vercel.app/
-- 👉 Portfolio: https://renzoyano.vercel.app/
+- 👉 Portfolio: https://yanorenzo.vercel.app/
 
 ---
 
@@ -128,4 +128,5 @@ This project is part of my frontend portfolio and reflects my approach to buildi
 scalable, and user-focused React applications.
 
 ---
+
 
